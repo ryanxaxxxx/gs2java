@@ -1,0 +1,26 @@
+package com.greenway.greenwayapi.controller;
+
+import com.greenway.greenwayapi.messaging.RideRequestMessage;
+import com.greenway.greenwayapi.messaging.RideRequestProducer;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/test/rabbit")
+@RequiredArgsConstructor
+public class RideRequestTestController {
+
+    private final RideRequestProducer producer;
+
+    @PostMapping("/send")
+    public String sendTestMessage() {
+        RideRequestMessage msg = new RideRequestMessage();
+        msg.setUserId("123");
+        msg.setDestino("Av. Paulista");
+
+        producer.send(msg);
+
+        return "Mensagem enviada!";
+    }
+}
+
